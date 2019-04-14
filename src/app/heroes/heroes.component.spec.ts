@@ -24,5 +24,15 @@ describe(`description`, () => {
                 // Assert
                 expect(component.heroes.length).toBe(2);
         });
+
+        it(`should call deleteHero with the correct value`, () => {
+               // Arrange
+               mockHeroService.deleteHero.and.returnValue(of(true));
+               component.heroes = HEROES;
+               // Act
+               component.delete(HEROES[2]);
+               // Assert
+               expect(mockHeroService.deleteHero).toHaveBeenCalledWith(HEROES[2]);
+        });
     });
 });
