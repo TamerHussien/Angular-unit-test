@@ -57,7 +57,8 @@ describe(`HeroesComponent (Deep tests)`, () => {
         // Act run ngOninit
         fixture.detectChanges();
         const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
-        (<HeroComponent>heroComponents[0].componentInstance).delete.emit(undefined);
+        // (<HeroComponent>heroComponents[0].componentInstance).delete.emit(undefined);
+        heroComponents[0].triggerEventHandler('delete', null);
             // Assert
             expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
     });
