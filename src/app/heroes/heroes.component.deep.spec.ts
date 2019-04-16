@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { Hero } from '../hero';
 import { By } from '@angular/platform-browser';
 import { HeroComponent } from '../hero/hero.component';
+import { query } from '@angular/core/src/render3';
 
 describe(`HeroesComponent (Deep tests)`, () => {
     let fixture: ComponentFixture<HeroesComponent>;
@@ -61,5 +62,23 @@ describe(`HeroesComponent (Deep tests)`, () => {
         heroComponents[0].triggerEventHandler('delete', null);
             // Assert
             expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
+    });
+
+    it(`should add new hero to the hero list when add button is clicked`, () => {
+        mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+        // Act run ngOninit
+        fixture.detectChanges();
+        const name = 'Mr. Ice';
+        mockHeroService.addHero.and.returnValue(of({id: 5, name: name, strength: 4}));
+        const inputEl = fixture.debugElement.query(By.css('input')).nativeElement;
+        const addButton = fixture.debugElement.queryAll(By.css('button'))[0];
+
+        inputEl.value = name;
+        addButton.triggerEventHandler('click', null);
+        fixture.detectChanges();
+
+        const heroText = fixture.debugElement.query(By.css('ul')).nativeElement.textContent;
+        expect(heroText).toContain(name);
     });
 });
