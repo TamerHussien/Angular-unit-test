@@ -91,4 +91,17 @@ describe(`HeroesComponent (Deep tests)`, () => {
         const heroText = fixture.debugElement.query(By.css('ul')).nativeElement.textContent;
         expect(heroText).toContain(name);
     });
+
+    it(`should have the correct route for the first hero`, () => {
+            // Arrange
+            mockHeroService.getHeroes.and.returnValue(of(HEROES));
+            fixture.detectChanges();
+            const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+            // Act
+            let routerLink = heroComponents[0].query(By.directive(RouterLinkStubDirective))
+            .injector.get(RouterLinkStubDirective);
+            heroComponents[0].query(By.css('a')).triggerEventHandler('click', null);
+            // Assert
+            expect(routerLink.navigatedTo).toBe('/detail/1');
+    });
 });
