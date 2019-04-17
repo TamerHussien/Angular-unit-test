@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, fakeAsync, tick, flush } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick, flush, async } from '@angular/core/testing';
 import { HeroDetailComponent } from './hero-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../hero.service';
@@ -47,9 +47,17 @@ let mockActivatedRoute, mockHeroService, mockLocation;
             // Assert
             flush();
             expect(mockHeroService.updateHero).toHaveBeenCalled();
-            // setTimeout(() => {
-            //     expect(mockHeroService.updateHero).toHaveBeenCalled();
-            //     done();
-            // }, 300);
     }));
+
+    // it(`should call updateHero when save is called`, async( () => {
+    //     // Arrange
+    //     mockHeroService.updateHero.and.returnValue(of({}));
+    //     fixture.detectChanges();
+    //     // Act
+    //     fixture.componentInstance.save();
+    //     // Assert
+    //     fixture.whenStable().then(() => {
+    //         expect(mockHeroService.updateHero).toHaveBeenCalled();
+    //     });
+    // }));
 });
